@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace EOffice\Packages\Doctrine\Providers;
 
+use Doctrine\ORM\EntityManagerInterface;
 use EOffice\Packages\Doctrine\Service\MetadataConfigurator;
 use EOffice\Packages\Doctrine\Service\TargetEntityResolver;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,6 +23,10 @@ use LaravelDoctrine\ORM\DoctrineServiceProvider as LaravelDoctrineServiceProvide
 use LaravelDoctrine\ORM\IlluminateRegistry;
 use function PHPUnit\Framework\assertInstanceOf;
 
+/**
+ * @psalm-suppress MixedArgument
+ * @psalm-suppress MixedAssignment
+ */
 class DoctrineServiceProvider extends ServiceProvider
 {
     public function boot(): void
@@ -34,6 +39,9 @@ class DoctrineServiceProvider extends ServiceProvider
         BootChain::add([$this, 'handleOnDoctrineBoot']);
     }
 
+    /**
+     * @psalm-suppress MixedArgument
+     */
     public function register()
     {
         config([
@@ -52,8 +60,9 @@ class DoctrineServiceProvider extends ServiceProvider
         assertInstanceOf(MetadataConfigurator::class, $configurator);
 
         foreach ($registry->getManagerNames() as $managerName) {
-            $manager = $registry->getManager($managerName);
-            $configurator->configure($managerName, $manager);
+            $manager = $registry->getManager((string)$managerName);
+            assertInstanceOf(EntityManagerInterface::class, $manager);
+            $configurator->configure((string)$managerName, $manager);
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace EOffice\Core\Tests\Unit\Providers;
 
 use EOffice\Core\Providers\EOfficeServiceProvider;
+use EOffice\Surat\Providers\SuratServiceProvider;
 use EOffice\User\Providers\AuthServiceProvider;
 use EOffice\User\Providers\UserServiceProvider;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -27,20 +28,17 @@ class EOfficeServiceProviderTest extends TestCase
         $this->eoffice = new EOfficeServiceProvider($this->app);
     }
 
-
-    /**
-     * @test
-     */
-    public function it_should_load_eoffice_required_service_provider()
+    public function test_should_load_eoffice_required_service_provider()
     {
         $eoffice = $this->eoffice;
         $app = $this->app;
 
-        $app->expects($this->exactly(2))
+        $app->expects($this->exactly(3))
             ->method('register')
             ->withConsecutive(
-                [AuthServiceProvider::class, false],
-                [UserServiceProvider::class, false]
+                [AuthServiceProvider::class],
+                [UserServiceProvider::class],
+                [SuratServiceProvider::class]
             );
 
         $eoffice->boot();

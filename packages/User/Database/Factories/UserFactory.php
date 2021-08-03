@@ -1,10 +1,11 @@
 <?php
 
-namespace Database\Factories;
+namespace EOffice\User\Database\Factories;
 
 use EOffice\User\Model\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use function now;
 
 class UserFactory extends Factory
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace EOffice\Core\Http\Controller;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

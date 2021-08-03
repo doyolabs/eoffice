@@ -30,7 +30,7 @@ jobs:
         run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
       - name: Post install
         run: |
-          cp .env.example .env
+          cp .env.ci .env
           ./artisan key:generate
           ./artisan config:cache
       - name: Psalm
@@ -71,7 +71,7 @@ jobs:
 
       - name: Post install
         run: |
-          cp .env.example .env
+          cp .env.ci .env
           ./artisan key:generate
           ./artisan config:cache
       - name: Enable code coverage
@@ -84,7 +84,7 @@ jobs:
           if [ "$COVERAGE" = '1' ]; then
             ./vendor/bin/phpunit --coverage-clover build/logs/phpunit/clover.xml --log-junit build/logs/phpunit/junit.xml --colors=always
           else
-            ./artisan test --log-junit build/logs/phpunit/junit.xml --colors=always
+            ./vendor/bin/phpunit --log-junit build/logs/phpunit/junit.xml --colors=always
           fi
       - name: Upload coverage results to Codecov
         if: matrix.coverage

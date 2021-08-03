@@ -22,13 +22,15 @@ use LaravelDoctrine\ORM\Extensions\Extension as ExtensionContract;
 
 class TargetEntityResolver extends ResolveTargetEntityListener implements ExtensionContract
 {
+    /**
+     * @param RepositoryConfig $config
+     * @psalm-suppress MixedAssignment
+     */
     public function __construct(RepositoryConfig $config)
     {
         $resolves = (array)$config->get('doctrine.resolve_target_entities', []);
-        foreach ($resolves as $abstract => $concrete) {
-            $abstract = (string)$abstract;
-            $concrete = (string)$concrete;
-            $this->addResolveTargetEntity($abstract, $concrete, []);
+        foreach ($resolves as $abstract => /** @var string */$concrete) {
+            $this->addResolveTargetEntity((string)$abstract, (string)$concrete, []);
         }
     }
 

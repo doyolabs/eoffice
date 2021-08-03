@@ -19,6 +19,8 @@ use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Illuminate\Config\Repository as RepositoryConfig;
+use LaravelDoctrine\ORM\Extensions\MappingDriverChain;
+
 class MetadataConfigurator
 {
     /**
@@ -38,10 +40,12 @@ class MetadataConfigurator
      * @throws \Doctrine\ORM\ORMException on ::getMetadataDriverImpl
      *
      * @return void
+     * @psalm-suppress MixedAssignment
+     * @psalm-suppress MixedArrayAccess
      */
     public function configure(string $name, EntityManagerInterface $manager): void
     {
-        /* @var \LaravelDoctrine\ORM\Extensions\MappingDriverChain $chainDriver */
+        /** @var MappingDriverChain $chainDriver */
         $chainDriver = $manager->getConfiguration()->getMetadataDriverImpl();
         $config      = $this->repository;
         $configKey   = 'doctrine.managers.'.$name.'.mappings';
@@ -52,23 +56,27 @@ class MetadataConfigurator
             $dir           = $setting['dir'];
             $fileExtension = $setting['file_extension'] ?? null;
             $driver        = null;
+            $namespace = (string)$namespace;
 
             if ('annotation' === $type) {
-                $path = $setting['dir'];
+                $path = $dir;
                 $chainDriver->addPaths([$path]);
             } else {
                 if ('xml' === $type) {
-                    $fileExtension = null === $fileExtension ? SimplifiedXmlDriver::DEFAULT_FILE_EXTENSION : $fileExtension;
+                    $fileExtension = null === $fileExtension ?? $fileExtension;
                     $driver        = new SimplifiedXmlDriver([$dir => $namespace], $fileExtension);
                 } elseif ('yaml' === $type || 'yml' === $type) {
                     $fileExtension = null === $fileExtension ? SimplifiedYamlDriver::DEFAULT_FILE_EXTENSION : $fileExtension;
                     $driver        = new SimplifiedYamlDriver([$dir => $namespace], $fileExtension);
                 } elseif ('php' === $type) {
                     $driver = new PHPDriver($dir);
-                } else {
+                }
+                if(!is_null($driver)){
+                    $chainDriver->addDriver($driver, $namespace);
+                }
+                else{
                     throw new \InvalidArgumentException(sprintf('Unknown doctrine mapping type "%s"', $type));
                 }
-                $chainDriver->addDriver($driver, $namespace);
             }
         }
     }

@@ -1,0 +1,9 @@
+Tests\Kilip\LaravelDoctrine\ORM\Fixtures\YML\TestYML:
+  type: entity
+  table: test_yml
+  id:
+    id:
+      type: string
+      generator: { strategy: UUID }
+  fields:
+    name: {type: string}

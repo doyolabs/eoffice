@@ -13,6 +13,7 @@ namespace EOffice\User\Tests\Unit\Service;
 
 use EOffice\User\Contracts\UserManagerInterface;
 use EOffice\User\Contracts\UserRepositoryInterface;
+use EOffice\User\Http\Resources\UserResource;
 use EOffice\User\Model\User;
 use EOffice\User\Request\CreateUserRequest;
 use EOffice\User\Service\UserManager;
@@ -22,6 +23,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \EOffice\User\Service\UserManager
+ */
 class UserManagerTest extends TestCase
 {
     /**
@@ -68,13 +72,11 @@ class UserManagerTest extends TestCase
     {
         $data    = ['test'];
         $request = $this->createMock(CreateUserRequest::class);
+        $user = $this->createMock(User::class);
+
+
         $request->expects($this->once())
             ->method('all')
-            ->willReturn($data);
-
-        $user = $this->createMock(User::class);
-        $user->expects($this->once())
-            ->method('toArray')
             ->willReturn($data);
 
         $this->userRepository->expects($this->once())
@@ -83,7 +85,21 @@ class UserManagerTest extends TestCase
             ->willReturn($user);
 
         $response = $this->userManager->register($request);
-        $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertSame($data, $response->getData());
+        $this->assertInstanceOf(UserResource::class, $response);
+    }
+
+    public function testCreate()
+    {
+        $data = ['test'];
+        $user = $this->createMock(User::class);
+
+        $repository = $this->userRepository;
+        $repository->expects($this->once())
+            ->method('create')
+            ->with($data)
+            ->willReturn($user);
+
+        $result = $this->userManager->create($data);
+        $this->assertSame($user, $result);
     }
 }

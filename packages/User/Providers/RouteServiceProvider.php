@@ -16,7 +16,7 @@ use EOffice\Core\Providers\RouteServiceProvider as BaseRouteServiceProvider;
 
 class RouteServiceProvider extends BaseRouteServiceProvider implements HasApiRoutes
 {
-    protected $namespace = 'EOffice\\User\\Controller';
+    protected $namespace = '\\EOffice\\User\\Controller';
 
     public function getApiRoutesPath(): string
     {

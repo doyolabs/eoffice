@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace EOffice\User\Contracts;
 
+use EOffice\User\Http\Resources\UserResource;
 use EOffice\User\Model\User;
 use EOffice\User\Request\CreateUserRequest;
 use Illuminate\Http\JsonResponse;
@@ -27,5 +28,7 @@ interface UserManagerInterface
      */
     public function create(array $data): User;
 
-    public function register(CreateUserRequest $request): JsonResponse;
+    public function register(CreateUserRequest $request): UserResource;
+
+    public function findByUsername($username);
 }

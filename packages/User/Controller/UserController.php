@@ -24,7 +24,12 @@ class UserController extends Controller
         return $manager->getLists($request);
     }
 
-    public function register(UserManagerInterface $manager, CreateUserRequest $request): JsonResponse
+    /**
+     * @param UserManagerInterface $manager
+     * @param CreateUserRequest $request
+     * @return \EOffice\User\Http\Resources\UserResource
+     */
+    public function store(UserManagerInterface $manager, CreateUserRequest $request)
     {
         return $manager->register($request);
     }

@@ -14,6 +14,9 @@ namespace EOffice\User\Tests\Feature;
 use EOffice\Core\Test\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * @covers \EOffice\User\Controller\UserController
+ */
 class AuthTest extends TestCase
 {
     use RefreshDatabase;

@@ -18,6 +18,9 @@ use EOffice\User\Providers\UserServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \EOffice\Core\Providers\EOfficeServiceProvider
+ */
 class EOfficeServiceProviderTest extends TestCase
 {
     /**

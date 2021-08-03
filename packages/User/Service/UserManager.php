@@ -13,6 +13,7 @@ namespace EOffice\User\Service;
 
 use EOffice\User\Contracts\UserManagerInterface;
 use EOffice\User\Contracts\UserRepositoryInterface;
+use EOffice\User\Http\Resources\UserResource;
 use EOffice\User\Model\User;
 use EOffice\User\Request\CreateUserRequest;
 use Illuminate\Contracts\Foundation\Application;
@@ -29,6 +30,11 @@ class UserManager implements UserManagerInterface
     {
         $this->userRepository = $userRepository;
         $this->model          = $model;
+    }
+
+    public function findByUsername($username): ?User
+    {
+        return User::where('username', $username);
     }
 
     public static function factory(Application $app): UserManagerInterface
@@ -51,11 +57,11 @@ class UserManager implements UserManagerInterface
         return $this->userRepository->create($data);
     }
 
-    public function register(CreateUserRequest $request): JsonResponse
+    public function register(CreateUserRequest $request): UserResource
     {
         $repository = $this->userRepository;
         $user       = $repository->create($request->all());
 
-        return new JsonResponse($user->toArray());
+        return new UserResource($user);
     }
 }

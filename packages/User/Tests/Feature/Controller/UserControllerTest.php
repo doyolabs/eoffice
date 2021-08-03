@@ -15,6 +15,7 @@ use EOffice\Core\Test\TestCase;
 use EOffice\User\Contracts\UserManagerInterface;
 use EOffice\User\Model\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 
 /**
@@ -45,9 +46,11 @@ class UserControllerTest extends TestCase
             'password' => '12345678',
             'password_confirmation' => '12345678',
         ]);
-        $response->assertStatus(200);
-        $data = $response->getData();
-        $this->assertNotNull($data->id);
-        $this->assertSame('Test User', $data->nama);
+        $response->assertCreated();
+    }
+
+    public function testItHandlesUserUpdate()
+    {
+
     }
 }

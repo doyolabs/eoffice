@@ -13,6 +13,7 @@ namespace EOffice\User\Tests\Unit\Controller;
 
 use EOffice\User\Contracts\UserManagerInterface;
 use EOffice\User\Controller\UserController;
+use EOffice\User\Http\Resources\UserResource;
 use EOffice\User\Request\CreateUserRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -61,11 +62,13 @@ class UserControllerTest extends TestCase
     public function testRegister()
     {
         $request = $this->createMock(CreateUserRequest::class);
+        $resource = $this->createMock(UserResource::class);
+
         $this->userManager->expects($this->once())
             ->method('register')
             ->with($request)
-            ->willReturn($this->response);
+            ->willReturn($resource);
 
-        $this->userController->register($this->userManager, $request);
+        $this->userController->store($this->userManager, $request);
     }
 }

@@ -6,6 +6,4 @@ parameters:
     excludePaths:
         - src/*/*/Database/Factories/*
         - src/*/*/Tests/*
-    ignoreErrors:
-        - '#Call to an undefined method [a-zA-Z0-9\\_]+::addPaths#'
-        - '#Call to an undefined method [a-zA-Z0-9\\_]+::addDriver#'
+

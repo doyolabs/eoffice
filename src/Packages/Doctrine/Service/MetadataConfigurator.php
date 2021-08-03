@@ -65,7 +65,7 @@ class MetadataConfigurator
                 $chainDriver->addPaths([$path]);
             } else {
                 if ('xml' === $type) {
-                    $fileExtension = null === $fileExtension ?? $fileExtension;
+                    $fileExtension = null === $fileExtension ? SimplifiedXmlDriver::DEFAULT_FILE_EXTENSION : $fileExtension;
                     $driver        = new SimplifiedXmlDriver([$dir => $namespace], $fileExtension);
                 } elseif ('yaml' === $type || 'yml' === $type) {
                     $fileExtension = null === $fileExtension ? SimplifiedYamlDriver::DEFAULT_FILE_EXTENSION : $fileExtension;

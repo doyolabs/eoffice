@@ -1,8 +1,9 @@
-includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
-
 parameters:
     paths:
         - packages
     level: 5
     checkMissingIterableValueType: false
+    excludePaths:
+        - packages/*/Database/Factories/*
+        - packages/*/Tests/*
+        - vendor/spatie/ray/*

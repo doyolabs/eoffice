@@ -6,17 +6,18 @@ use EOffice\User\Contracts\UserManagerInterface;
 use EOffice\User\Contracts\UserRepositoryInterface;
 use EOffice\User\Repository\UserRepository;
 use EOffice\User\Service\UserManager;
-use Illuminate\Foundation\Application;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app->register(RouteServiceProvider::class);
-        $this->loadMigrationsFrom(__DIR__.'/../Resources/database');
+        $app = $this->app;
 
-        $this->loadServices($this->app);
+        $app->register(RouteServiceProvider::class);
+        $this->loadMigrationsFrom(__DIR__.'/../Resources/database');
+        $this->loadServices($app);
     }
 
     private function loadServices(Application $app)

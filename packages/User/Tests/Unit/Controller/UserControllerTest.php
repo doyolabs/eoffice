@@ -9,6 +9,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \EOffice\User\Controller\UserController
+ */
 class UserControllerTest extends TestCase
 {
     /**

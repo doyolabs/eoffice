@@ -14,7 +14,7 @@
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">packages</directory>
+            <directory suffix=".php">./packages</directory>
         </include>
     </coverage>
     <php>
@@ -27,5 +27,6 @@
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
         <server name="TELESCOPE_ENABLED" value="false"/>
+        <ini name="pcov.directory" value="packages"/>
     </php>
 </phpunit>

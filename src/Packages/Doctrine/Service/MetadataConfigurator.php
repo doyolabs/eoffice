@@ -36,8 +36,10 @@ class MetadataConfigurator
      * @param EntityManagerInterface $manager
      *
      * @throws \Doctrine\ORM\ORMException on ::getMetadataDriverImpl
+     *
+     * @return void
      */
-    public function configure(string $name, EntityManagerInterface $manager)
+    public function configure(string $name, EntityManagerInterface $manager): void
     {
         /* @var \LaravelDoctrine\ORM\Extensions\MappingDriverChain $chainDriver */
         $chainDriver = $manager->getConfiguration()->getMetadataDriverImpl();

@@ -19,7 +19,7 @@ interface UserInterface
 
     public function getType(): int;
 
-    public function setNama(string $nama);
+    public function setNama(string $nama): void;
 
     public function getNama(): string;
 

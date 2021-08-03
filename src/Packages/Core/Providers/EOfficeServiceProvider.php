@@ -18,12 +18,12 @@ use Illuminate\Support\ServiceProvider;
 
 class EOfficeServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->loadProviders();
     }
 
-    private function loadProviders()
+    private function loadProviders(): void
     {
         $app = $this->app;
         $app->register(DoctrineServiceProvider::class);

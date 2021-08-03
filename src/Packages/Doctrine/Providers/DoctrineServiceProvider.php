@@ -23,7 +23,7 @@ use LaravelDoctrine\ORM\IlluminateRegistry;
 
 class DoctrineServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->app->register(LaravelDoctrineServiceProvider::class);
         $this->app->singleton(MetadataConfigurator::class, function(Application $app){
@@ -45,7 +45,7 @@ class DoctrineServiceProvider extends ServiceProvider
         ]);
     }
 
-    public function handleOnDoctrineBoot(IlluminateRegistry $registry)
+    public function handleOnDoctrineBoot(IlluminateRegistry $registry): void
     {
         $configurator = $this->app->make(MetadataConfigurator::class);
 

@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ * (c) Anthonius Munthi <https://itstoni.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\User\Tests\Feature;
 
 use EOffice\Core\Test\TestCase;
-use EOffice\User\Model\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Passport\Passport;
 
 class AuthTest extends TestCase
 {
@@ -13,7 +20,7 @@ class AuthTest extends TestCase
 
     protected bool $seed = true;
 
-    public function test_servers_can_be_created()
+    public function testServersCanBeCreated()
     {
         $this->assertFalse($this->isAuthenticated());
     }

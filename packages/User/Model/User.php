@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ * (c) Anthonius Munthi <https://itstoni.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\User\Model;
 
 use EOffice\User\Database\Factories\UserFactory;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +20,9 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens,HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -63,8 +73,8 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        static::creating(function($user){
-            $user->{$user->getKeyName()} = (string)Str::uuid();
+        static::creating(function ($user) {
+            $user->{$user->getKeyName()} = (string) Str::uuid();
         });
     }
 }

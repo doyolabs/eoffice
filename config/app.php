@@ -1,7 +1,15 @@
 <?php
 
-return [
+/*
+ * This file is part of the EOffice project.
+ * (c) Anthonius Munthi <https://itstoni.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+declare(strict_types=1);
+
+return [
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -135,7 +143,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -175,7 +182,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        \EOffice\Core\Providers\EOfficeServiceProvider::class
+        \EOffice\Core\Providers\EOfficeServiceProvider::class,
     ],
 
     /*
@@ -190,7 +197,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -229,7 +235,5 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
-
 ];

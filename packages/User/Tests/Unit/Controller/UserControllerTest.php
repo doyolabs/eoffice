@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ * (c) Anthonius Munthi <https://itstoni.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\User\Tests\Unit\Controller;
 
 use EOffice\User\Contracts\UserManagerInterface;
@@ -33,10 +42,10 @@ class UserControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->userManager = $this->createMock(UserManagerInterface::class);
+        $this->userManager    = $this->createMock(UserManagerInterface::class);
         $this->userController = new UserController();
-        $this->response = $this->createMock(JsonResponse::class);
-        $this->request = $this->createMock(Request::class);
+        $this->response       = $this->createMock(JsonResponse::class);
+        $this->request        = $this->createMock(Request::class);
     }
 
     public function testGetLists()

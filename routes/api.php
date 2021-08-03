@@ -1,8 +1,13 @@
 <?php
 
-use EOffice\User\Controller\UserController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+/*
+ * This file is part of the EOffice project.
+ * (c) Anthonius Munthi <https://itstoni.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +19,3 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-

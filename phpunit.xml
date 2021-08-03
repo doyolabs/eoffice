@@ -16,6 +16,10 @@
         <include>
             <directory suffix=".php">./packages</directory>
         </include>
+        <exclude>
+            <directory>./packages/*/Tests</directory>
+            <directory>./packages/*/Resources</directory>
+        </exclude>
     </coverage>
     <php>
         <server name="APP_ENV" value="testing"/>

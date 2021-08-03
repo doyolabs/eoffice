@@ -20,6 +20,7 @@ use Illuminate\Support\ServiceProvider;
 use LaravelDoctrine\ORM\BootChain;
 use LaravelDoctrine\ORM\DoctrineServiceProvider as LaravelDoctrineServiceProvider;
 use LaravelDoctrine\ORM\IlluminateRegistry;
+use function PHPUnit\Framework\assertInstanceOf;
 
 class DoctrineServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,7 @@ class DoctrineServiceProvider extends ServiceProvider
     public function handleOnDoctrineBoot(IlluminateRegistry $registry): void
     {
         $configurator = $this->app->make(MetadataConfigurator::class);
+        assertInstanceOf(MetadataConfigurator::class, $configurator);
 
         foreach ($registry->getManagerNames() as $managerName) {
             $manager = $registry->getManager($managerName);

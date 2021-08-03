@@ -42,6 +42,8 @@ class MetadataConfigurator
      * @return void
      * @psalm-suppress MixedAssignment
      * @psalm-suppress MixedArrayAccess
+     * @psalm-suppress MixedArgument
+     * @psalm-suppress MixedArrayOffset
      */
     public function configure(string $name, EntityManagerInterface $manager): void
     {

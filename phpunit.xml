@@ -14,7 +14,7 @@
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">./packages</directory>
+            <directory suffix=".php">packages</directory>
         </include>
     </coverage>
     <php>

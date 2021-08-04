@@ -17,9 +17,8 @@ use EOffice\Components\Resource\Model\TimestampableTrait;
 use EOffice\Components\Resource\Model\ToggleableTrait;
 use EOffice\Components\User\Contracts\UserInterface;
 
-class User implements UserInterface
+abstract class User implements UserInterface
 {
-    use ResourceTrait;
     use TimestampableTrait;
     use ToggleableTrait;
 

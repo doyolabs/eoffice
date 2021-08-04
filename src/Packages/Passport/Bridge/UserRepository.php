@@ -46,7 +46,7 @@ class UserRepository implements UserRepositoryInterface
         }
 
         if ($this->hasher->check($password, $user->getPassword())) {
-            return new User($user->getId());
+            return new User($user->getAuthIdentifier());
         }
 
         return null;

@@ -15,6 +15,7 @@ namespace EOffice\Packages\User\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use EOffice\Components\User\Model\User as BaseUser;
+use EOffice\Packages\Core\Model\ResourceTrait;
 use EOffice\Packages\User\Contracts\UserInterface;
 use Laravel\Passport\HasApiTokens;
 
@@ -26,11 +27,5 @@ class User extends BaseUser implements UserInterface
 {
     use Authenticatable;
     use HasApiTokens;
-
-    /**
-     * @ORM\Column(name="id", type="string")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     */
-    protected ?string $id;
+    use ResourceTrait;
 }

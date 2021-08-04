@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Illuminate\Config\Repository as RepositoryConfig;
+use LaravelDoctrine\ORM\Extensions\MappingDriverChain;
 
 class MetadataConfigurator
 {
@@ -45,7 +46,7 @@ class MetadataConfigurator
      */
     public function configure(string $name, EntityManagerInterface $manager): void
     {
-        /** @var MappingDrivPerChain $chainDriver */
+        /** @var MappingDriverChain $chainDriver */
         $chainDriver = $manager->getConfiguration()->getMetadataDriverImpl();
         $config      = $this->repository;
         $configKey   = 'doctrine.managers.'.$name.'.mappings';

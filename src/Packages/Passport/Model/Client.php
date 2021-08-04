@@ -75,12 +75,12 @@ class Client implements TimestampableInterface, ClientInterface
     protected bool $revoked;
 
     /**
-     * @var array|GrantTypeInterface
+     * @var array|GrantTypeInterface[]
      */
     protected array $grants;
 
     /**
-     * @return array|GrantTypeInterface
+     * @return array|GrantTypeInterface[]
      */
     public function getGrants(): array
     {

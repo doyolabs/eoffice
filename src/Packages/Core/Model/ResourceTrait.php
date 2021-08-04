@@ -22,7 +22,7 @@ trait ResourceTrait
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    protected ?string $id;
+    protected ?string $id = null;
 
     /**
      * @return string|null

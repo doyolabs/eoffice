@@ -24,19 +24,19 @@ use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->app->register(PassportServiceProvider::class);
         $this->loadServices();
         $this->configureDoctrine();
     }
 
-    public function register()
+    public function register(): void
     {
         $this->configureDoctrine();
     }
 
-    private function loadServices()
+    private function loadServices(): void
     {
         $app = $this->app;
 
@@ -44,7 +44,11 @@ class UserServiceProvider extends ServiceProvider
         $app->singleton(CanonicalFieldsUpdater::class, CanonicalFieldsUpdater::class);
     }
 
-    private function configureDoctrine()
+    /**
+     * @psalm-suppress PossiblyInvalidCast
+     * @psalm-suppress MixedAssignment
+     */
+    private function configureDoctrine(): void
     {
         $config = $this->app['config'];
 
@@ -58,11 +62,12 @@ class UserServiceProvider extends ServiceProvider
             ],
         ];
 
-        $configKey = 'doctrine.managers.'.config('eoffice.user.manager_name', 'default').'.mappings';
+        $managerName = config('eoffice.user.manager_name', 'default');
+        $configKey   = 'doctrine.managers.'.(string) $managerName.'.mappings';
         config([
             $configKey => array_merge(
                 $mappings,
-                config($configKey, [])
+                (array) config($configKey, [])
             ),
         ]);
         Doctrine::resolveTargetEntity(UserInterface::class, User::class, []);

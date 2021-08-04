@@ -20,7 +20,7 @@ trait Authenticatable
     /**
      * @ORM\Column(name="remember_token", type="string", nullable=true)
      */
-    protected string $rememberToken;
+    protected ?string $rememberToken = null;
 
     public function getAuthIdentifierName(): string
     {
@@ -32,16 +32,19 @@ trait Authenticatable
         return $this->getId();
     }
 
-    public function getAuthPassword(): string
+    public function getAuthPassword()
     {
         return $this->getPassword();
     }
 
-    public function getRememberToken(): ?string
+    public function getRememberToken()
     {
         return $this->rememberToken;
     }
 
+    /**
+     * @param string|null $value
+     */
     public function setRememberToken($value): void
     {
         $this->rememberToken = $value;

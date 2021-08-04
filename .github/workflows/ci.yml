@@ -43,7 +43,7 @@ jobs:
     name: "PHPUnit (PHP ${{ matrix.php }})"
     strategy:
       matrix:
-        php: [ 7.4, 8.0]
+        php: [ 7.4, 8.0, 8.1]
         include:
           - php: '8.0'
             coverage: true

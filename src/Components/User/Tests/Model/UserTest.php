@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace EOffice\Components\User\Tests\Model;
 
-use EOffice\Components\User\Model\User;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +22,7 @@ class UserTest extends TestCase
 {
     public function testItsUsernameShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
 
         $this->assertNull($ob->getUsername());
 
@@ -33,7 +32,7 @@ class UserTest extends TestCase
 
     public function testItsUsernameCanonicalShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
 
         $this->assertNull($ob->getUsernameCanonical());
 
@@ -43,7 +42,7 @@ class UserTest extends TestCase
 
     public function testItsEmailShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
 
         $this->assertNull($ob->getEmail());
 
@@ -53,7 +52,7 @@ class UserTest extends TestCase
 
     public function testItsEmailCanonicalShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
         $this->assertNull($ob->getEmailCanonical());
 
         $ob->setEmailCanonical($email = 'test@foo.org');
@@ -62,7 +61,7 @@ class UserTest extends TestCase
 
     public function testItsPlainPasswordShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
         $this->assertNull($ob->getPlainPassword());
 
         $ob->setPlainPassword($password = 'test');
@@ -71,7 +70,7 @@ class UserTest extends TestCase
 
     public function testItsPasswordShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
         $this->assertNull($ob->getPassword());
 
         $ob->setPassword($password = 'test');
@@ -80,7 +79,7 @@ class UserTest extends TestCase
 
     public function testItsEmailVerificationTokenShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
         $this->assertNull($ob->getEmailVerificationToken());
 
         $ob->setEmailVerificationToken($token = 'token');
@@ -89,7 +88,7 @@ class UserTest extends TestCase
 
     public function testItsPasswordResetTokenShouldBeMutable()
     {
-        $ob = new User();
+        $ob = new TestUser();
         $this->assertNull($ob->getPasswordResetToken());
 
         $ob->setPasswordResetToken($token = 'token');

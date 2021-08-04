@@ -32,8 +32,9 @@ class DoctrineServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->register(LaravelDoctrineServiceProvider::class);
-        $this->app->singleton(MetadataConfigurator::class, function(Application $app){
+        $this->app->singleton(MetadataConfigurator::class, function (Application $app) {
             $config = $app->get('config');
+
             return new MetadataConfigurator($config);
         });
         BootChain::add([$this, 'handleOnDoctrineBoot']);
@@ -60,9 +61,9 @@ class DoctrineServiceProvider extends ServiceProvider
         assertInstanceOf(MetadataConfigurator::class, $configurator);
 
         foreach ($registry->getManagerNames() as $managerName) {
-            $manager = $registry->getManager((string)$managerName);
+            $manager = $registry->getManager((string) $managerName);
             assertInstanceOf(EntityManagerInterface::class, $manager);
-            $configurator->configure((string)$managerName, $manager);
+            $configurator->configure((string) $managerName, $manager);
         }
     }
 }

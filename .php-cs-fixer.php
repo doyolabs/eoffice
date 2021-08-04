@@ -24,7 +24,7 @@ return $config
         '@DoctrineAnnotation' => true,
         '@PHP71Migration' => true,
         '@PHP71Migration:risky' => true,
-        '@PHPUnit60Migration:risky' => true,
+        // '@PHPUnit60Migration:risky' => true,
         '@Symfony' => true,
         '@Symfony:risky' => true,
         'align_multiline_comment' => [

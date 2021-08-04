@@ -28,9 +28,9 @@ class TargetEntityResolver extends ResolveTargetEntityListener implements Extens
      */
     public function __construct(RepositoryConfig $config)
     {
-        $resolves = (array)$config->get('doctrine.resolve_target_entities', []);
-        foreach ($resolves as $abstract => /** @var string */$concrete) {
-            $this->addResolveTargetEntity((string)$abstract, (string)$concrete, []);
+        $resolves = (array) $config->get('doctrine.resolve_target_entities', []);
+        foreach ($resolves as $abstract => /* @var string */ $concrete) {
+            $this->addResolveTargetEntity((string) $abstract, (string) $concrete, []);
         }
     }
 

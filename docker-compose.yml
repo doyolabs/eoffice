@@ -2,6 +2,7 @@
 version: '3'
 services:
     laravel.test:
+        container_name: 'eoffice.test'
         build:
             context: ./vendor/laravel/sail/runtimes/8.0
             dockerfile: Dockerfile
@@ -22,6 +23,7 @@ services:
             - redis
             - selenium
     mariadb:
+        container_name: 'eoffice.mariadb'
         image: 'mariadb:10'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
@@ -40,6 +42,7 @@ services:
           retries: 3
           timeout: 5s
     redis:
+        container_name: 'eoffice.redis'
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
@@ -52,12 +55,14 @@ services:
           retries: 3
           timeout: 5s
     selenium:
-       image: 'selenium/standalone-chrome'
-       volumes:
+        container_name: 'eoffice.selenium'
+        image: 'selenium/standalone-chrome'
+        volumes:
             - '/dev/shm:/dev/shm'
-       networks:
+        networks:
            - sail
     mailhog:
+        container_name: 'eoffice.mailhog'
         image: 'mailhog/mailhog:latest'
         ports:
             - '${FORWARD_MAILHOG_PORT:-1025}:1025'

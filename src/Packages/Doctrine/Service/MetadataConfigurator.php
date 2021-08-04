@@ -16,7 +16,6 @@ namespace EOffice\Packages\Doctrine\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
-use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Illuminate\Config\Repository as RepositoryConfig;
 use LaravelDoctrine\ORM\Extensions\MappingDriverChain;
@@ -58,7 +57,7 @@ class MetadataConfigurator
             $dir           = $setting['dir'];
             $fileExtension = $setting['file_extension'] ?? null;
             $driver        = null;
-            $namespace = (string)$namespace;
+            $namespace     = (string) $namespace;
 
             if ('annotation' === $type) {
                 $path = $dir;
@@ -73,10 +72,9 @@ class MetadataConfigurator
                 } elseif ('php' === $type) {
                     $driver = new PHPDriver($dir);
                 }
-                if(!is_null($driver)){
+                if (null !== $driver) {
                     $chainDriver->addDriver($driver, $namespace);
-                }
-                else{
+                } else {
                     throw new \InvalidArgumentException(sprintf('Unknown doctrine mapping type "%s"', $type));
                 }
             }

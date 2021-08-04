@@ -13,25 +13,41 @@ declare(strict_types=1);
 
 namespace EOffice\Components\User\Contracts;
 
-interface UserInterface
+use EOffice\Components\Resource\Contracts\ResourceInterface;
+use EOffice\Components\Resource\Contracts\TimestampableInterface;
+use EOffice\Components\Resource\Contracts\ToggleableInterface;
+
+interface UserInterface extends TimestampableInterface, ToggleableInterface, ResourceInterface
 {
-    public function setType(int $type): void;
-
-    public function getType(): int;
-
-    public function setNama(string $nama): void;
-
-    public function getNama(): string;
-
     public function setEmail(?string $email): void;
 
     public function getEmail(): ?string;
+
+    public function setEmailCanonical(?string $emailCanonical): void;
+
+    public function getEmailCanonical(): ?string;
 
     public function setUsername(?string $username): void;
 
     public function getUsername(): ?string;
 
-    public function setNIP(?string $nip): void;
+    public function setUsernameCanonical(?string $usernameCanonical): void;
 
-    public function getNIP(): ?string;
+    public function getUsernameCanonical(): ?string;
+
+    public function setPlainPassword(?string $plainPassword): void;
+
+    public function getPlainPassword(): ?string;
+
+    public function setPassword(?string $password): void;
+
+    public function getPassword(): ?string;
+
+    public function setEmailVerificationToken(?string $emailVerificationToken): void;
+
+    public function getEmailVerificationToken(): ?string;
+
+    public function setPasswordResetToken(?string $passwordResetToken): void;
+
+    public function getPasswordResetToken(): ?string;
 }

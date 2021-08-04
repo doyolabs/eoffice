@@ -87,7 +87,7 @@ class MetadataConfiguratorTest extends TestCase
         $configurator->configure('default', $em);
     }
 
-    public function testConfigureXML()
+    public function testConfigureXml()
     {
         $em          = $this->em;
         $repository  = $this->repository;
@@ -133,7 +133,7 @@ class MetadataConfiguratorTest extends TestCase
         $configurator->configure('default', $em);
     }
 
-    public function testConfigurePHP()
+    public function testConfigurePhp()
     {
         $em          = $this->em;
         $repository  = $this->repository;

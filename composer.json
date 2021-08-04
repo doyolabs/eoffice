@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel-doctrine/orm": "^1.7",
         "laravel/framework": "^8.40",
+        "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
@@ -56,7 +57,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "cs-fix": "@php ./vendor/bin/php-cs-fixer fix"
+        "cs-fix": "@php ./vendor/bin/php-cs-fixer fix",
+        "coverage": "./vendor/bin/phpunit --coverage-text --coverage-html build/logs/html"
     },
     "extra": {
         "laravel": {

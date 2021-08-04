@@ -22,6 +22,7 @@ services:
             - mariadb
             - redis
             - selenium
+            - phpmyadmin
     mariadb:
         container_name: 'eoffice.mariadb'
         image: 'mariadb:10'
@@ -41,6 +42,18 @@ services:
           test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
           retries: 3
           timeout: 5s
+    phpmyadmin:
+        container_name: 'eoffice.phpmyadmin'
+        image: 'phpmyadmin'
+        restart: always
+        ports:
+            - 8081:80
+        environment:
+            - PMA_ARBITRARY=1
+        networks:
+            - sail
+        depends_on:
+            - mariadb
     redis:
         container_name: 'eoffice.redis'
         image: 'redis:alpine'

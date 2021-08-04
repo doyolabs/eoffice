@@ -13,11 +13,14 @@ declare(strict_types=1);
 
 namespace EOffice\Packages\Doctrine\Providers;
 
+use Doctrine\Common\EventManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Events;
 use EOffice\Packages\Doctrine\Service\MetadataConfigurator;
 use EOffice\Packages\Doctrine\Service\TargetEntityResolver;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use LaravelDoctrine\ORM\BootChain;
 use LaravelDoctrine\ORM\DoctrineServiceProvider as LaravelDoctrineServiceProvider;
 use LaravelDoctrine\ORM\IlluminateRegistry;
@@ -37,7 +40,16 @@ class DoctrineServiceProvider extends ServiceProvider
 
             return new MetadataConfigurator($config);
         });
+        $this->app->singleton(TargetEntityResolver::class, TargetEntityResolver::class);
+        $this->app->alias(TargetEntityResolver::class, 'eoffice.doctrine.entity_resolver');
+
         BootChain::add([$this, 'handleOnDoctrineBoot']);
+        $this->booted(function(Application $app){
+            /** @var EntityManagerInterface $em */
+            $em = $app->get('em');
+            $evm = $em->getEventManager();
+            $evm->addEventSubscriber($app->get(TargetEntityResolver::class));
+        });
     }
 
     /**
@@ -45,14 +57,7 @@ class DoctrineServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        config([
-            'doctrine.extensions' => array_merge(
-                [TargetEntityResolver::class], config('doctrine.extensions', [])
-            ),
-        ]);
-        config([
-            'doctrine.managers.default.mappings' => array_merge([], config('doctrine.managers.default.mappings', [])),
-        ]);
+        $this->mergeConfig();
     }
 
     public function handleOnDoctrineBoot(IlluminateRegistry $registry): void
@@ -65,5 +70,15 @@ class DoctrineServiceProvider extends ServiceProvider
             assertInstanceOf(EntityManagerInterface::class, $manager);
             $configurator->configure((string) $managerName, $manager);
         }
+
+
+    }
+
+    private function mergeConfig()
+    {
+        $this->mergeConfigFrom(
+            realpath(__DIR__.'/../Resources/config/doctrine.php'),
+            'doctrine'
+        );
     }
 }

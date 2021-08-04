@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace EOffice\Packages\Core\Providers;
 
 use EOffice\Packages\Doctrine\Providers\DoctrineServiceProvider;
+use EOffice\Packages\User\Providers\UserServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class EOfficeServiceProvider extends ServiceProvider
@@ -27,5 +28,6 @@ class EOfficeServiceProvider extends ServiceProvider
     {
         $app = $this->app;
         $app->register(DoctrineServiceProvider::class);
+        $app->register(UserServiceProvider::class);
     }
 }

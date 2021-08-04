@@ -46,7 +46,7 @@ class MetadataConfigurator
      */
     public function configure(string $name, EntityManagerInterface $manager): void
     {
-        /** @var MappingDriverChain $chainDriver */
+        /** @var MappingDrivPerChain $chainDriver */
         $chainDriver = $manager->getConfiguration()->getMetadataDriverImpl();
         $config      = $this->repository;
         $configKey   = 'doctrine.managers.'.$name.'.mappings';

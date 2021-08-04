@@ -1,9 +1,19 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Doctrine;
 
 use EOffice\Packages\Doctrine\Service\TargetEntityResolver;
-use Laravel\Passport\Passport;
 
 class Doctrine
 {
@@ -11,8 +21,8 @@ class Doctrine
         string $abstract,
         string $concrete,
         array $options = []
-    ){
-        /* @var \EOffice\Packages\Doctrine\Service\TargetEntityResolver $resolver */
+    ) {
+        /** @var \EOffice\Packages\Doctrine\Service\TargetEntityResolver $resolver */
         $resolver = app(TargetEntityResolver::class);
 
         $resolver->addResolveTargetEntity($abstract, $concrete, $options);

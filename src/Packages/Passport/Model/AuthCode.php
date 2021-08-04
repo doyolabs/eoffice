@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Model;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +23,7 @@ use EOffice\Packages\Passport\Contracts\AuthCodeInterface;
 class AuthCode implements AuthCodeInterface
 {
     /**
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\Column(name="id", type="string")
      * @ORM\GeneratedValue(strategy="UUID")
      */

@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Tests\Bridge;
 
 use Doctrine\Persistence\ObjectManager;
-use EOffice\Packages\Passport\Bridge\AuthCodeRepository;
 use EOffice\Packages\Core\Test\TestCase;
+use EOffice\Packages\Passport\Bridge\AuthCodeRepository;
 use EOffice\Packages\Passport\Contracts\AuthCodeInterface;
 use EOffice\Packages\Passport\Contracts\AuthCodeManagerInterface;
 use EOffice\Packages\Passport\Contracts\ClientInterface;
@@ -44,9 +55,9 @@ class AuthCodeRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->authCodeManager = $this->createMock(AuthCodeManagerInterface::class);
-        $this->clientManager = $this->createMock(ClientManagerInterface::class);
-        $this->scopeConverter = $this->createMock(ScopeConverterInterface::class);
-        $this->userManager = $this->createMock(UserManagerInterface::class);
+        $this->clientManager   = $this->createMock(ClientManagerInterface::class);
+        $this->scopeConverter  = $this->createMock(ScopeConverterInterface::class);
+        $this->userManager     = $this->createMock(UserManagerInterface::class);
 
         $this->repository = new AuthCodeRepository(
             $this->authCodeManager,
@@ -68,8 +79,8 @@ class AuthCodeRepositoryTest extends TestCase
         $exception = UniqueTokenIdentifierConstraintViolationException::create();
 
         $authCodeManager = $this->authCodeManager;
-        $repository = $this->repository;
-        $authCode = new AuthCode();
+        $repository      = $this->repository;
+        $authCode        = new AuthCode();
         $authCode->setIdentifier('identifier');
 
         $exist = $this->createMock(AuthCodeInterface::class);
@@ -79,21 +90,21 @@ class AuthCodeRepositoryTest extends TestCase
             ->with('identifier')
             ->willReturn($exist);
 
-        $this->expectException(get_class($exception));
+        $this->expectException(\get_class($exception));
         $this->expectExceptionMessage($exception->getMessage());
         $repository->persistNewAuthCode($authCode);
     }
 
     public function testItShouldPersistNewAuthCode()
     {
-        $repository = $this->repository;
+        $repository      = $this->repository;
         $authCodeManager = $this->authCodeManager;
-        $clientManager = $this->clientManager;
-        $userManager = $this->userManager;
-        $client = $this->createMock(ClientInterface::class);
-        $user = $this->createMock(UserInterface::class);
-        $authCode = new AuthCode();
-        $scopes = ['scopes'];
+        $clientManager   = $this->clientManager;
+        $userManager     = $this->userManager;
+        $client          = $this->createMock(ClientInterface::class);
+        $user            = $this->createMock(UserInterface::class);
+        $authCode        = new AuthCode();
+        $scopes          = ['scopes'];
 
         $authCode->setClient(new Client('client_id', 'name', 'uri'));
         $authCode->setIdentifier('identifier');
@@ -134,9 +145,9 @@ class AuthCodeRepositoryTest extends TestCase
 
     public function testItShouldRevokeAuthCode()
     {
-        $authCode = $this->createMock(AuthCodeInterface::class);
+        $authCode        = $this->createMock(AuthCodeInterface::class);
         $authCodeManager = $this->authCodeManager;
-        $repository = $this->repository;
+        $repository      = $this->repository;
 
         $authCodeManager->expects($this->once())
             ->method('findById')
@@ -156,8 +167,8 @@ class AuthCodeRepositoryTest extends TestCase
     public function testItShouldChecksRevokedAuthCode()
     {
         $authCodeManager = $this->authCodeManager;
-        $authCode = $this->createMock(AuthCodeInterface::class);
-        $repository = $this->repository;
+        $authCode        = $this->createMock(AuthCodeInterface::class);
+        $repository      = $this->repository;
 
         $authCode->expects($this->once())
             ->method('isRevoked')

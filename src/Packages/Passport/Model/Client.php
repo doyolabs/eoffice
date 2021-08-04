@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Model;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +29,7 @@ class Client implements TimestampableInterface, ClientInterface
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\Id()
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
     protected ?string $id;
@@ -83,9 +94,8 @@ class Client implements TimestampableInterface, ClientInterface
 
     public function confidential(): bool
     {
-        return !empty($this->secret);
+        return ! empty($this->secret);
     }
-
 
     /**
      * @return UserInterface

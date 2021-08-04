@@ -18,7 +18,6 @@ use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
 use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\Persistence\Mapping\Driver\PHPDriver;
 use Illuminate\Config\Repository as RepositoryConfig;
-use LaravelDoctrine\ORM\Extensions\MappingDriverChain;
 
 class MetadataConfigurator
 {

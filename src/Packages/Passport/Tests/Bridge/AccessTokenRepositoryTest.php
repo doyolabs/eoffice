@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Tests\Bridge;
 
 use EOffice\Packages\Passport\Bridge\AccessTokenRepository;
@@ -37,20 +48,20 @@ class AccessTokenRepositoryTest extends TestCase
     private AccessTokenRepository $repository;
     private AccessToken $accessTokenEntity;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->accessTokenManager = $this->createMock(AccessTokenManagerInterface::class);
-        $this->clientManager = $this->createMock(ClientManagerInterface::class);
-        $this->scopeConverter = $this->createMock(ScopeConverterInterface::class);
-        $this->userManager = $this->createMock(UserManagerInterface::class);
-        $this->repository = new AccessTokenRepository(
+        $this->clientManager      = $this->createMock(ClientManagerInterface::class);
+        $this->scopeConverter     = $this->createMock(ScopeConverterInterface::class);
+        $this->userManager        = $this->createMock(UserManagerInterface::class);
+        $this->repository         = new AccessTokenRepository(
             $this->accessTokenManager,
             $this->clientManager,
             $this->scopeConverter,
             $this->userManager
         );
 
-        $clientEntity = new Client('client_id', 'name','redirect');
+        $clientEntity      = new Client('client_id', 'name', 'redirect');
         $accessTokenEntity = $this->repository->getNewToken($clientEntity, [], 'user_id');
         $accessTokenEntity->setIdentifier('identifier');
         $accessTokenEntity->setExpiryDateTime(new \DateTimeImmutable('now'));
@@ -60,15 +71,15 @@ class AccessTokenRepositoryTest extends TestCase
     public function testItShouldPersistNewToken()
     {
         $accessTokenManager = $this->accessTokenManager;
-        $clientManager = $this->clientManager;
-        $userManager = $this->userManager;
-        $scopeConverter = $this->scopeConverter;
-        $repository = $this->repository;
-        $entity = $this->accessTokenEntity;
-        $accessToken = $this->createMock(AccessTokenInterface::class);
-        $client = $this->createMock(ClientInterface::class);
-        $user = $this->createMock(UserInterface::class);
-        $scopes = ['scopes'];
+        $clientManager      = $this->clientManager;
+        $userManager        = $this->userManager;
+        $scopeConverter     = $this->scopeConverter;
+        $repository         = $this->repository;
+        $entity             = $this->accessTokenEntity;
+        $accessToken        = $this->createMock(AccessTokenInterface::class);
+        $client             = $this->createMock(ClientInterface::class);
+        $user               = $this->createMock(UserInterface::class);
+        $scopes             = ['scopes'];
 
         $accessTokenManager->expects($this->once())
             ->method('findById')
@@ -106,11 +117,11 @@ class AccessTokenRepositoryTest extends TestCase
 
     public function testItThrowsWhenAccessTokenIdentifierExist()
     {
-        $expected = UniqueTokenIdentifierConstraintViolationException::create();
+        $expected           = UniqueTokenIdentifierConstraintViolationException::create();
         $accessTokenManager = $this->accessTokenManager;
-        $repository = $this->repository;
-        $accessToken = $this->createMock(AccessTokenInterface::class);
-        $entity = $this->accessTokenEntity;
+        $repository         = $this->repository;
+        $accessToken        = $this->createMock(AccessTokenInterface::class);
+        $entity             = $this->accessTokenEntity;
 
         $this->expectExceptionObject($expected);
 
@@ -124,8 +135,8 @@ class AccessTokenRepositoryTest extends TestCase
     public function testItRevokeAccessTokenUsingIdentifier()
     {
         $accessTokenManager = $this->accessTokenManager;
-        $accessToken = $this->createMock(AccessTokenInterface::class);
-        $repository = $this->repository;
+        $accessToken        = $this->createMock(AccessTokenInterface::class);
+        $repository         = $this->repository;
 
         $accessTokenManager->expects($this->once())
             ->method('findById')
@@ -144,9 +155,9 @@ class AccessTokenRepositoryTest extends TestCase
     public function testItShouldCheckRevokedTokenId()
     {
         $accessTokenManager = $this->accessTokenManager;
-        $accessToken = $this->createMock(AccessTokenInterface::class);
-        $repository = $this->repository;
-        $tokenId = 'token-id';
+        $accessToken        = $this->createMock(AccessTokenInterface::class);
+        $repository         = $this->repository;
+        $tokenId            = 'token-id';
 
         $accessTokenManager->expects($this->exactly(2))
             ->method('findById')

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Bridge;
 
 use EOffice\Packages\Passport\Contracts\ClientInterface;
@@ -14,8 +25,7 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function __construct(
         ClientManagerInterface $clientManager
-    )
-    {
+    ) {
         $this->clientManager = $clientManager;
     }
 
@@ -27,22 +37,22 @@ class ClientRepository implements ClientRepositoryInterface
     public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
         $clientManager = $this->clientManager;
-        $record = $clientManager->findActive($clientIdentifier);
+        $record        = $clientManager->findActive($clientIdentifier);
 
-        if(!$record || !$this->handlesGrant($record, $grantType)){
+        if ( ! $record || ! $this->handlesGrant($record, $grantType)) {
             return false;
         }
 
-        return !$record->confidential() || $this->verifySecret((string)$clientSecret, $record->getSecret());
+        return ! $record->confidential() || $this->verifySecret((string) $clientSecret, $record->getSecret());
     }
 
     private function handlesGrant(ClientInterface $record, ?string $grantType): bool
     {
-        if (is_array($record->getGrants()) && ! in_array($grantType, $record->getGrants())) {
+        if (\is_array($record->getGrants()) && ! \in_array($grantType, $record->getGrants(), true)) {
             return false;
         }
 
-        $personal = $record->isPersonalAccessClient();
+        $personal     = $record->isPersonalAccessClient();
         $confidential = $record->confidential();
         switch ($grantType) {
             case 'authorization_code':
@@ -60,6 +70,6 @@ class ClientRepository implements ClientRepositoryInterface
 
     private function verifySecret(string $clientSecret, string $storedHash): bool
     {
-        return Passport::$hashesClientSecrets ? password_verify($clientSecret, $storedHash):hash_equals($storedHash, $clientSecret);
+        return Passport::$hashesClientSecrets ? password_verify($clientSecret, $storedHash) : hash_equals($storedHash, $clientSecret);
     }
 }

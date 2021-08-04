@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Bridge;
 
 use EOffice\Packages\Passport\Contracts\AccessTokenManagerInterface;
@@ -7,14 +18,12 @@ use EOffice\Packages\Passport\Contracts\RefreshTokenManagerInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Laravel\Passport\Bridge\RefreshToken;
 use Laravel\Passport\Events\RefreshTokenCreated;
-use Laravel\Passport\Passport;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 {
-
     private RefreshTokenManagerInterface $refreshTokenManager;
     private AccessTokenManagerInterface $accessTokenManager;
     private Dispatcher $dispatcher;
@@ -23,11 +32,10 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
         RefreshTokenManagerInterface $refreshTokenManager,
         AccessTokenManagerInterface $accessTokenManager,
         Dispatcher $dispatcher
-    )
-    {
+    ) {
         $this->refreshTokenManager = $refreshTokenManager;
-        $this->accessTokenManager = $accessTokenManager;
-        $this->dispatcher = $dispatcher;
+        $this->accessTokenManager  = $accessTokenManager;
+        $this->dispatcher          = $dispatcher;
     }
 
     public function getNewRefreshToken(): RefreshTokenEntityInterface
@@ -48,9 +56,9 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 
     public function revokeRefreshToken($tokenId)
     {
-        $manager = $this->refreshTokenManager;
+        $manager      = $this->refreshTokenManager;
         $refreshToken = $manager->find($tokenId);
-        if(!is_null($refreshToken)){
+        if (null !== $refreshToken) {
             $refreshToken->revoke();
             $manager->save($refreshToken);
         }

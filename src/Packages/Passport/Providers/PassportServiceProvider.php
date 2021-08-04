@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the EOffice project.
+ *
+ * (c) Anthonius Munthi <https://itstoni.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 namespace EOffice\Packages\Passport\Providers;
 
 use EOffice\Packages\Doctrine\Doctrine;
@@ -26,10 +37,10 @@ class PassportServiceProvider extends ServiceProvider
     {
         $mappings = [
             'EOffice\\Packages\\Passport\\Model' => [
-                'dir' => realpath(__DIR__ . '/../Model')
-            ]
+                'dir' => realpath(__DIR__.'/../Model'),
+            ],
         ];
-        $configKey = 'doctrine.managers.' . config('eoffice.orm.manager_name', 'default') . '.mappings';
+        $configKey = 'doctrine.managers.'.config('eoffice.orm.manager_name', 'default').'.mappings';
         config([
             $configKey => array_merge(
                 $mappings,

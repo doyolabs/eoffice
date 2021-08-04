@@ -22,6 +22,9 @@ use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 
+/**
+ * @covers \EOffice\Packages\Passport\Bridge\RefreshTokenRepository
+ */
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 {
     private RefreshTokenManagerInterface $refreshTokenManager;
@@ -45,13 +48,27 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity): void
     {
-        /*
-        if(!is_null($refreshTokenManager->find($refreshTokenEntity->getIdentifier()))){
+        $refreshTokenManager = $this->refreshTokenManager;
+        if (null !== $refreshTokenManager->find($refreshTokenEntity->getIdentifier())) {
             throw UniqueTokenIdentifierConstraintViolationException::create();
         }
-        */
-        $this->refreshTokenManager->createFromEntity($refreshTokenEntity);
-        $this->dispatcher->dispatch(new RefreshTokenCreated($refreshTokenEntity->getIdentifier(), $refreshTokenEntity->getAccessToken()->getIdentifier()));
+
+        $accessTokenId = $refreshTokenEntity->getAccessToken()->getIdentifier();
+        $accessToken   = $this->accessTokenManager->findById($accessTokenId);
+
+        $record = $refreshTokenManager->create(
+            $refreshTokenEntity->getIdentifier(),
+            $refreshTokenEntity->getExpiryDateTime(),
+            $accessToken
+        );
+        $refreshTokenManager->save($record);
+
+        $event = new RefreshTokenCreated(
+            $refreshTokenEntity->getIdentifier(),
+            $refreshTokenEntity->getAccessToken()->getIdentifier()
+        );
+
+        $this->dispatcher->dispatch($event);
     }
 
     public function revokeRefreshToken($tokenId)
@@ -64,8 +81,14 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
         }
     }
 
-    public function isRefreshTokenRevoked($tokenId)
+    public function isRefreshTokenRevoked($tokenId): bool
     {
-        // TODO: Implement isRefreshTokenRevoked() method.
+        $token = $this->refreshTokenManager->find($tokenId);
+
+        if (null === $token) {
+            return true;
+        }
+
+        return $token->isRevoked();
     }
 }

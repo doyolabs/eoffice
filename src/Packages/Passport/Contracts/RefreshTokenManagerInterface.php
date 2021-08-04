@@ -22,4 +22,6 @@ interface RefreshTokenManagerInterface
     public function createFromEntity(RefreshTokenEntityInterface $refreshTokenEntity): void;
 
     public function save(RefreshTokenInterface $refreshToken): void;
+
+    public function create(string $getIdentifier, \DateTimeImmutable $getExpiryDateTime, ?AccessTokenInterface $accessToken): RefreshTokenInterface;
 }

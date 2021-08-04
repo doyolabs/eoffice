@@ -13,13 +13,7 @@ declare(strict_types=1);
 
 namespace EOffice\Packages\Passport\Contracts;
 
-use EOffice\Packages\User\Contracts\UserInterface;
-
-interface UserManagerInterface
+interface ScopeManagerInterface
 {
-    public function findById(?string $id): ?UserInterface;
-
-    public function findByUsername(string $username): ?UserInterface;
-
-    public function findByEmail(string $email): ?UserInterface;
+    public function find(string $identifier): ScopeInterface;
 }

@@ -44,6 +44,11 @@ class RefreshToken implements TimestampableInterface, RefreshTokenInterface
      */
     protected ?\DateTimeInterface $expiresAt;
 
+    public function revoke(): void
+    {
+        $this->setRevoked(true);
+    }
+
     /**
      * @return AccessTokenInterface|null
      */

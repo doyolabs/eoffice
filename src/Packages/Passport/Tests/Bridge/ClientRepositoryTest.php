@@ -20,7 +20,7 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \ClientRepository
+ * @covers \EOffice\Packages\Passport\Bridge\ClientRepository
  */
 class ClientRepositoryTest extends TestCase
 {

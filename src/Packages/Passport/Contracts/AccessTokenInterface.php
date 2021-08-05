@@ -23,9 +23,9 @@ interface AccessTokenInterface
     public function getUser(): ?UserInterface;
 
     /**
-     * @param UserInterface|null $user
+     * @param UserInterface $user
      */
-    public function setUser(?UserInterface $user): void;
+    public function setUser(UserInterface $user): void;
 
     /**
      * @return ClientInterface|null
@@ -35,7 +35,7 @@ interface AccessTokenInterface
     /**
      * @param ClientInterface|null $client
      */
-    public function setClient(?ClientInterface $client): void;
+    public function setClient(ClientInterface $client): void;
 
     /**
      * @return string|null

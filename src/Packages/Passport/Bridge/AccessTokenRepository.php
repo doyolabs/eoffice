@@ -49,7 +49,7 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
     /**
      * @param ClientEntityInterface        $clientEntity
      * @param array|ScopeEntityInterface[] $scopes
-     * @param mixed              $userIdentifier
+     * @param mixed                        $userIdentifier
      * @psalm-param array<array-key, ScopeEntityInterface> $scopes
      *
      * @return AccessTokenEntityInterface

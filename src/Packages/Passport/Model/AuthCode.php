@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace EOffice\Packages\Passport\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use EOffice\Packages\User\Contracts\UserInterface;
 use EOffice\Packages\Passport\Contracts\AuthCodeInterface;
 use EOffice\Packages\Passport\Contracts\ClientInterface;
+use EOffice\Packages\User\Contracts\UserInterface;
 
 /**
  * @ORM\Entity

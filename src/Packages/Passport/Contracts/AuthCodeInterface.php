@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace EOffice\Packages\Passport\Contracts;
 
-use Doctrine\ORM\Mapping as ORM;
 use EOffice\Packages\User\Contracts\UserInterface;
 
 interface AuthCodeInterface

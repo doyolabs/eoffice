@@ -79,9 +79,9 @@ class AccessToken implements TimestampableInterface, AccessTokenInterface
     }
 
     /**
-     * @param UserInterface|null $user
+     * @param UserInterface $user
      */
-    public function setUser(?UserInterface $user): void
+    public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
@@ -95,9 +95,9 @@ class AccessToken implements TimestampableInterface, AccessTokenInterface
     }
 
     /**
-     * @param ClientInterface|null $client
+     * @param ClientInterface $client
      */
-    public function setClient(?ClientInterface $client): void
+    public function setClient(ClientInterface $client): void
     {
         $this->client = $client;
     }

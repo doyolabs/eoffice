@@ -46,6 +46,7 @@ trait Authenticatable
 
     /**
      * @return string
+     * @psalm-suppress InvalidNullableReturnType
      */
     public function getRememberToken()
     {
@@ -54,6 +55,7 @@ trait Authenticatable
 
     /**
      * @param string $token
+     * @psalm-suppress ParamNameMismatch
      */
     public function setRememberToken($token): void
     {

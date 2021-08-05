@@ -33,7 +33,7 @@ interface AccessTokenInterface
     public function getClient(): ?ClientInterface;
 
     /**
-     * @param ClientInterface|null $client
+     * @param ClientInterface $client
      */
     public function setClient(ClientInterface $client): void;
 

@@ -34,7 +34,7 @@ jobs:
           ./artisan key:generate
           ./artisan config:cache
       - name: Psalm
-        run: php vendor/bin/psalm --threads=2 --output-format=github --shepherd --stats
+        run: vendor/bin/psalm --threads=2 --shepherd --stats
         continue-on-error: true
 
       - name: PHPStan

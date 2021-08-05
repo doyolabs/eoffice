@@ -35,9 +35,11 @@ jobs:
           ./artisan config:cache
       - name: Psalm
         run: php vendor/bin/psalm --threads=2 --output-format=github --shepherd --stats
+        continue-on-error: true
 
       - name: PHPStan
         run: php vendor/bin/phpstan analyse --error-format=checkstyle --no-progress | cs2pr
+        continue-on-error: true
 
   phpunit:
     name: "PHPUnit (PHP ${{ matrix.php }})"

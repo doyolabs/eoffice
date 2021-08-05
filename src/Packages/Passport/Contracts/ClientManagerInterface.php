@@ -17,7 +17,7 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 
 interface ClientManagerInterface
 {
-    public function findById(string $id): ?ClientInterface;
+    public function find(string $id): ?ClientInterface;
 
     public function findActive(string $id): ?ClientInterface;
 

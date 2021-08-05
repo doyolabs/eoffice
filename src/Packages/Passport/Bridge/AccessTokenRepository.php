@@ -17,10 +17,13 @@ use EOffice\Packages\Passport\Contracts\AccessTokenInterface;
 use EOffice\Packages\Passport\Contracts\AccessTokenManagerInterface;
 use EOffice\Packages\Passport\Contracts\ClientManagerInterface;
 use EOffice\Packages\Passport\Contracts\ScopeConverterInterface;
-use EOffice\Packages\Passport\Contracts\UserManagerInterface;
+use EOffice\Packages\Passport\Exception\PassportException;
+use EOffice\Packages\User\Contracts\UserManagerInterface;
+use EOffice\Packages\User\Exception\UserException;
 use Laravel\Passport\Bridge\AccessToken;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 
@@ -43,16 +46,24 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         $this->userManager        = $userManager;
     }
 
-    public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null)
+    /**
+     * @param ClientEntityInterface        $clientEntity
+     * @param array|ScopeEntityInterface[] $scopes
+     * @param string|int|null              $userIdentifier
+     * @psalm-param array<array-key, ScopeEntityInterface> $scopes
+     *
+     * @return AccessTokenEntityInterface
+     */
+    public function getNewToken(ClientEntityInterface $clientEntity, $scopes, $userIdentifier = null): AccessTokenEntityInterface
     {
-        return new AccessToken($userIdentifier, $scopes, $clientEntity);
+        return new AccessToken((string) $userIdentifier, $scopes, $clientEntity);
     }
 
-    public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
+    public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity): void
     {
         $accessTokenManager = $this->accessTokenManager;
 
-        if (null !== $accessTokenManager->findById($accessTokenEntity->getIdentifier())) {
+        if (null !== $accessTokenManager->find($accessTokenEntity->getIdentifier())) {
             throw UniqueTokenIdentifierConstraintViolationException::create();
         }
 
@@ -60,10 +71,10 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         $accessTokenManager->save($accessToken);
     }
 
-    public function revokeAccessToken($tokenId)
+    public function revokeAccessToken($tokenId): void
     {
         $accessTokenManager = $this->accessTokenManager;
-        $accessToken        = $accessTokenManager->findById($tokenId);
+        $accessToken        = $accessTokenManager->find($tokenId);
 
         if (null !== $accessToken) {
             $accessToken->revoke();
@@ -73,7 +84,7 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
 
     public function isAccessTokenRevoked($tokenId): bool
     {
-        $accessToken = $this->accessTokenManager->findById($tokenId);
+        $accessToken = $this->accessTokenManager->find($tokenId);
 
         if (null === $accessToken) {
             return true;
@@ -82,10 +93,25 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface
         return $accessToken->isRevoked();
     }
 
+    /**
+     * @param AccessTokenEntityInterface $accessTokenEntity
+     *
+     * @throws PassportException
+     * @throws UserException
+     *
+     * @return AccessTokenInterface
+     */
     private function buildAccessToken(AccessTokenEntityInterface $accessTokenEntity): AccessTokenInterface
     {
-        $client = $this->clientManager->findById($accessTokenEntity->getClient()->getIdentifier());
-        $user   = $this->userManager->findById($accessTokenEntity->getUserIdentifier());
+        $client = $this->clientManager->find($clientId = $accessTokenEntity->getClient()->getIdentifier());
+        $user   = $this->userManager->find($userId = $accessTokenEntity->getUserIdentifier());
+
+        if (null === $client) {
+            throw PassportException::clientNotFound($clientId);
+        }
+        if (null === $user) {
+            throw UserException::userNotFound($userId);
+        }
 
         return $this->accessTokenManager->create(
             $accessTokenEntity->getIdentifier(),

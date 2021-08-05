@@ -32,7 +32,7 @@ class Client implements TimestampableInterface, ClientInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    protected ?string $id;
+    protected ?string $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="EOffice\Packages\User\Contracts\UserInterface")
@@ -57,27 +57,36 @@ class Client implements TimestampableInterface, ClientInterface
     /**
      * @ORM\Column(type="text")
      */
-    protected ?string $redirect;
+    protected ?string $redirect = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected bool $personalAccessClient;
+    protected bool $personalAccessClient = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected bool $passwordClient;
+    protected bool $passwordClient = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected bool $revoked;
+    protected bool $revoked = false;
 
     /**
      * @var array|GrantTypeInterface[]
      */
-    protected array $grants;
+    protected array $grants = [];
+
+    /**
+     * @param UserInterface $user
+     */
+    public function __construct(
+        UserInterface $user
+    ) {
+        $this->user = $user;
+    }
 
     /**
      * @return array|GrantTypeInterface[]

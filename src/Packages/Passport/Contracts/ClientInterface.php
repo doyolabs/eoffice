@@ -101,6 +101,9 @@ interface ClientInterface
      */
     public function setRevoked(bool $revoked): void;
 
+    /**
+     * @return array
+     */
     public function getGrants(): array;
 
     public function firstParty(): bool;

@@ -31,5 +31,13 @@ class PersonalAccessClient implements TimestampableInterface
     /**
      * @ORM\ManyToOne(targetEntity="EOffice\Packages\Passport\Contracts\ClientInterface")
      */
-    protected ?ClientInterface $client;
+    protected ClientInterface $client;
+
+    /**
+     * @param ClientInterface $client
+     */
+    public function __construct(ClientInterface $client)
+    {
+        $this->client = $client;
+    }
 }

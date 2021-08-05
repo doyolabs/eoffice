@@ -54,7 +54,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
         }
 
         $accessTokenId = $refreshTokenEntity->getAccessToken()->getIdentifier();
-        $accessToken   = $this->accessTokenManager->findById($accessTokenId);
+        $accessToken   = $this->accessTokenManager->find($accessTokenId);
 
         $record = $refreshTokenManager->create(
             $refreshTokenEntity->getIdentifier(),
@@ -71,7 +71,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
         $this->dispatcher->dispatch($event);
     }
 
-    public function revokeRefreshToken($tokenId)
+    public function revokeRefreshToken($tokenId): void
     {
         $manager      = $this->refreshTokenManager;
         $refreshToken = $manager->find($tokenId);

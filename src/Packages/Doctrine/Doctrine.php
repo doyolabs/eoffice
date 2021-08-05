@@ -17,6 +17,12 @@ use EOffice\Packages\Doctrine\Service\TargetEntityResolver;
 
 class Doctrine
 {
+    /**
+     * @param string $abstract
+     * @param string $concrete
+     * @param array  $options
+     * @psalm-param array<string, mixed> $options
+     */
     public static function resolveTargetEntity(
         string $abstract,
         string $concrete,

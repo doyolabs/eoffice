@@ -45,5 +45,5 @@ interface RefreshTokenInterface
      */
     public function setExpiresAt(?\DateTimeInterface $expiresAt): void;
 
-    public function revoke();
+    public function revoke(): void;
 }

@@ -34,26 +34,34 @@ class ClientRepository implements ClientRepositoryInterface
         return $this->clientManager->createEntityByIdentifier($clientIdentifier);
     }
 
+    /**
+     * @param string      $clientIdentifier
+     * @param string|null $clientSecret
+     * @param string|null $grantType
+     *
+     * @return bool
+     */
     public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
         $clientManager = $this->clientManager;
         $record        = $clientManager->findActive($clientIdentifier);
 
-        if ( ! $record || ! $this->handlesGrant($record, $grantType)) {
+        if (null === $record) {
+            return false;
+        }
+        if ( ! $this->handlesGrant($record, $grantType)) {
             return false;
         }
 
-        return ! $record->confidential() || $this->verifySecret((string) $clientSecret, $record->getSecret());
+        return ! $record->confidential() || $this->verifySecret((string) $clientSecret, (string) $record->getSecret());
     }
 
     private function handlesGrant(ClientInterface $record, ?string $grantType): bool
     {
-        if (\is_array($record->getGrants()) && ! \in_array($grantType, $record->getGrants(), true)) {
+        if ( ! \in_array($grantType, $record->getGrants(), true)) {
             return false;
         }
 
-        $personal     = $record->isPersonalAccessClient();
-        $confidential = $record->confidential();
         switch ($grantType) {
             case 'authorization_code':
                 return ! $record->firstParty();

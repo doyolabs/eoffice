@@ -17,7 +17,12 @@ use EOffice\Packages\User\Contracts\UserInterface;
 
 interface AuthCodeManagerInterface
 {
-    public function findById(string $id): ?AuthCodeInterface;
+    /**
+     * @param string $id
+     *
+     * @return AuthCodeInterface|null
+     */
+    public function find(string $id): ?AuthCodeInterface;
 
     public function create(
         string $identifier,

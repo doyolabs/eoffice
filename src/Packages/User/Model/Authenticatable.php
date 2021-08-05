@@ -15,12 +15,15 @@ namespace EOffice\Packages\User\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @psalm-suppress PossiblyNullPropertyAssignmentValue
+ */
 trait Authenticatable
 {
     /**
      * @ORM\Column(name="remember_token", type="string", nullable=true)
      */
-    protected string $rememberToken;
+    protected ?string $rememberToken = null;
 
     public function getAuthIdentifierName(): string
     {
@@ -32,7 +35,11 @@ trait Authenticatable
         return $this->getId();
     }
 
-    public function getAuthPassword()
+    /**
+     * @return string|null
+     * @psalm-suppress ImplementedReturnTypeMismatch
+     */
+    public function getAuthPassword(): ?string
     {
         return $this->getPassword();
     }
@@ -46,14 +53,14 @@ trait Authenticatable
     }
 
     /**
-     * @param string|null $value
+     * @param string|null $token
      */
-    public function setRememberToken($value): void
+    public function setRememberToken($token): void
     {
-        $this->rememberToken = $value;
+        $this->rememberToken = $token;
     }
 
-    public function getRememberTokenName()
+    public function getRememberTokenName(): string
     {
         return 'rememberToken';
     }

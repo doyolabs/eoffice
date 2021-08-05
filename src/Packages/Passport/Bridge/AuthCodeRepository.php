@@ -17,7 +17,9 @@ use EOffice\Packages\Passport\Contracts\AuthCodeInterface;
 use EOffice\Packages\Passport\Contracts\AuthCodeManagerInterface;
 use EOffice\Packages\Passport\Contracts\ClientManagerInterface;
 use EOffice\Packages\Passport\Contracts\ScopeConverterInterface;
-use EOffice\Packages\Passport\Contracts\UserManagerInterface;
+use EOffice\Packages\Passport\Exception\PassportException;
+use EOffice\Packages\User\Contracts\UserManagerInterface;
+use EOffice\Packages\User\Exception\UserException;
 use Laravel\Passport\Bridge\AuthCode;
 use League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
@@ -47,9 +49,12 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
         return new AuthCode();
     }
 
-    public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity)
+    /**
+     * @psalm-suppress MissingReturnType
+     */
+    public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity): void
     {
-        if (null !== $this->authCodeManager->findById($authCodeEntity->getIdentifier())) {
+        if (null !== $this->authCodeManager->find($authCodeEntity->getIdentifier())) {
             throw UniqueTokenIdentifierConstraintViolationException::create();
         }
 
@@ -60,7 +65,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     public function revokeAuthCode($codeId): void
     {
         $authCodeManager = $this->authCodeManager;
-        $authCode        = $authCodeManager->findById($codeId);
+        $authCode        = $authCodeManager->find($codeId);
 
         if (null !== $authCode) {
             $authCode->revoke();
@@ -71,7 +76,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
     public function isAuthCodeRevoked($codeId): bool
     {
         $authCodeManager = $this->authCodeManager;
-        $authCode        = $authCodeManager->findById($codeId);
+        $authCode        = $authCodeManager->find($codeId);
 
         if (null === $authCode) {
             return true;
@@ -80,10 +85,26 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface
         return $authCode->isRevoked();
     }
 
+    /**
+     * @param AuthCodeEntityInterface $authCode
+     *
+     * @throws PassportException on invalid client id
+     * @throws UserException     on invalid user id
+     *
+     * @return AuthCodeInterface
+     */
     private function buildAuthCode(AuthCodeEntityInterface $authCode): AuthCodeInterface
     {
-        $client = $this->clientManager->findById($authCode->getClient()->getIdentifier());
-        $user   = $this->userManager->findById($authCode->getUserIdentifier());
+        $client = $this->clientManager->find($authCode->getClient()->getIdentifier());
+        $user   = $this->userManager->find($authCode->getUserIdentifier());
+
+        if (null === $user) {
+            throw UserException::userNotFound($authCode->getUserIdentifier());
+        }
+
+        if (null === $client) {
+            throw PassportException::clientNotFound($authCode->getClient()->getIdentifier());
+        }
 
         return $this->authCodeManager->create(
             $authCode->getIdentifier(),

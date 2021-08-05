@@ -33,32 +33,42 @@ class AccessToken implements TimestampableInterface, AccessTokenInterface
     /**
      * @ORM\ManyToOne(targetEntity="EOffice\Packages\User\Contracts\UserInterface")
      */
-    protected ?UserInterface $user;
+    protected UserInterface $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="EOffice\Packages\Passport\Contracts\ClientInterface")
      */
-    protected ?ClientInterface $client;
+    protected ClientInterface $client;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $name;
+    protected ?string $name = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected ?string $scopes;
+    protected ?string $scopes = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected bool $revoked;
+    protected bool $revoked = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected ?\DateTimeInterface $expiresAt;
+    protected ?\DateTimeInterface $expiresAt = null;
+
+    /**
+     * @param UserInterface   $user
+     * @param ClientInterface $client
+     */
+    public function __construct(UserInterface $user, ClientInterface $client)
+    {
+        $this->user   = $user;
+        $this->client = $client;
+    }
 
     /**
      * @return UserInterface|null

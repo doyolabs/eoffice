@@ -14,32 +14,17 @@ declare(strict_types=1);
 namespace EOffice\Packages\Passport\Contracts;
 
 use Doctrine\ORM\Mapping as ORM;
+use EOffice\Packages\User\Contracts\UserInterface;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="oauth_auth_codes")
- */
 interface AuthCodeInterface
 {
-    /**
-     * @return string|null
-     */
-    public function getUser(): ?string;
+    public function getUser(): UserInterface;
 
-    /**
-     * @param string|null $user
-     */
-    public function setUser(?string $user): void;
+    public function setUser(UserInterface $user): void;
 
-    /**
-     * @return string|null
-     */
-    public function getClient(): ?string;
+    public function getClient(): ClientInterface;
 
-    /**
-     * @param string|null $client
-     */
-    public function setClient(?string $client): void;
+    public function setClient(ClientInterface $client): void;
 
     /**
      * @return string|null

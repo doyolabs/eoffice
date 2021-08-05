@@ -21,8 +21,8 @@ use EOffice\Packages\Passport\Contracts\AuthCodeManagerInterface;
 use EOffice\Packages\Passport\Contracts\ClientInterface;
 use EOffice\Packages\Passport\Contracts\ClientManagerInterface;
 use EOffice\Packages\Passport\Contracts\ScopeConverterInterface;
-use EOffice\Packages\Passport\Contracts\UserManagerInterface;
 use EOffice\Packages\User\Contracts\UserInterface;
+use EOffice\Packages\User\Contracts\UserManagerInterface;
 use Laravel\Passport\Bridge\AuthCode;
 use Laravel\Passport\Bridge\Client;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
@@ -48,7 +48,7 @@ class AuthCodeRepositoryTest extends TestCase
      */
     private $scopeConverter;
     /**
-     * @var UserManagerInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var \EOffice\Packages\User\Contracts\UserManagerInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
      */
     private $userManager;
 
@@ -86,7 +86,7 @@ class AuthCodeRepositoryTest extends TestCase
         $exist = $this->createMock(AuthCodeInterface::class);
 
         $authCodeManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('identifier')
             ->willReturn($exist);
 
@@ -112,17 +112,17 @@ class AuthCodeRepositoryTest extends TestCase
         $authCode->setUserIdentifier('user_id');
 
         $clientManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('client_id')
             ->willReturn($client);
 
         $authCodeManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('identifier')
             ->willReturn(null);
 
         $userManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('user_id')
             ->willReturn($user);
         $this->scopeConverter->expects($this->once())
@@ -150,7 +150,7 @@ class AuthCodeRepositoryTest extends TestCase
         $repository      = $this->repository;
 
         $authCodeManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('id')
             ->willReturn($authCode);
 
@@ -176,7 +176,7 @@ class AuthCodeRepositoryTest extends TestCase
 
         $authCodeManager
             ->expects($this->exactly(2))
-            ->method('findById')
+            ->method('find')
             ->with('id')
             ->willReturnOnConsecutiveCalls(
                 null,

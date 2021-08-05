@@ -11,15 +11,28 @@
 
 declare(strict_types=1);
 
-namespace EOffice\Packages\Passport\Contracts;
-
-use EOffice\Packages\User\Contracts\UserInterface;
+namespace EOffice\Packages\User\Contracts;
 
 interface UserManagerInterface
 {
-    public function findById(?string $id): ?UserInterface;
+    /**
+     * @param string|int|null $id
+     *
+     * @return UserInterface|null
+     */
+    public function find($id): ?UserInterface;
 
+    /**
+     * @param string $username
+     *
+     * @return UserInterface|null
+     */
     public function findByUsername(string $username): ?UserInterface;
 
+    /**
+     * @param string $email
+     *
+     * @return UserInterface|null
+     */
     public function findByEmail(string $email): ?UserInterface;
 }

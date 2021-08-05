@@ -32,17 +32,17 @@ class RefreshToken implements TimestampableInterface, RefreshTokenInterface
     /**
      * @ORM\ManyToOne(targetEntity="EOffice\Packages\Passport\Contracts\AccessTokenInterface")
      */
-    protected ?AccessTokenInterface $accessToken;
+    protected ?AccessTokenInterface $accessToken = null;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected bool $revoked;
+    protected bool $revoked = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected ?\DateTimeInterface $expiresAt;
+    protected ?\DateTimeInterface $expiresAt = null;
 
     public function revoke(): void
     {

@@ -19,8 +19,8 @@ use EOffice\Packages\Passport\Contracts\AccessTokenManagerInterface;
 use EOffice\Packages\Passport\Contracts\ClientInterface;
 use EOffice\Packages\Passport\Contracts\ClientManagerInterface;
 use EOffice\Packages\Passport\Contracts\ScopeConverterInterface;
-use EOffice\Packages\Passport\Contracts\UserManagerInterface;
 use EOffice\Packages\User\Contracts\UserInterface;
+use EOffice\Packages\User\Contracts\UserManagerInterface;
 use Laravel\Passport\Bridge\AccessToken;
 use Laravel\Passport\Bridge\Client;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
@@ -82,15 +82,15 @@ class AccessTokenRepositoryTest extends TestCase
         $scopes             = ['scopes'];
 
         $accessTokenManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('identifier')
             ->willReturn(null);
         $clientManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('client_id')
             ->willReturn($client);
         $userManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with('user_id')
             ->willReturn($user);
         $scopeConverter->expects($this->once())
@@ -126,7 +126,7 @@ class AccessTokenRepositoryTest extends TestCase
         $this->expectExceptionObject($expected);
 
         $accessTokenManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->willReturn($accessToken);
 
         $repository->persistNewAccessToken($entity);
@@ -139,7 +139,7 @@ class AccessTokenRepositoryTest extends TestCase
         $repository         = $this->repository;
 
         $accessTokenManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->with($tokenId = 'token-id')
             ->willReturn($accessToken);
 
@@ -160,7 +160,7 @@ class AccessTokenRepositoryTest extends TestCase
         $tokenId            = 'token-id';
 
         $accessTokenManager->expects($this->exactly(2))
-            ->method('findById')
+            ->method('find')
             ->with($tokenId)
             ->willReturnOnConsecutiveCalls(
                 null,

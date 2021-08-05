@@ -105,7 +105,7 @@ class RefreshTokenRepositoryTest extends TestCase
             ->method('getExpiryDateTime')
             ->willReturn($expiry);
         $accessTokenManager->expects($this->once())
-            ->method('findById')
+            ->method('find')
             ->willReturn($accessTokenModel);
         $accessTokenEntity->expects($this->any())
             ->method('getIdentifier')

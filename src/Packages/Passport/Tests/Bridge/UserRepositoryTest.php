@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace EOffice\Packages\Passport\Tests\Bridge;
 
 use EOffice\Packages\Passport\Bridge\UserRepository;
-use EOffice\Packages\Passport\Contracts\UserManagerInterface;
 use EOffice\Packages\User\Contracts\UserInterface;
+use EOffice\Packages\User\Contracts\UserManagerInterface;
 use Illuminate\Contracts\Hashing\Hasher;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;

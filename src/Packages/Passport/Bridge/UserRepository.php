@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace EOffice\Packages\Passport\Bridge;
 
-use EOffice\Packages\Passport\Contracts\UserManagerInterface;
+use EOffice\Packages\User\Contracts\UserManagerInterface;
 use Illuminate\Contracts\Hashing\Hasher;
 use Laravel\Passport\Bridge\User;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -45,8 +45,8 @@ class UserRepository implements UserRepositoryInterface
             return null;
         }
 
-        if ($this->hasher->check($password, $user->getPassword())) {
-            return new User($user->getAuthIdentifier());
+        if ($this->hasher->check($password, (string) $user->getPassword())) {
+            return new User((string) $user->getAuthIdentifier());
         }
 
         return null;

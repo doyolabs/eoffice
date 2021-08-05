@@ -24,16 +24,19 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider as LaravelPassportServiceProvider;
 
+/**
+ * @psalm-suppress MixedOperand
+ */
 class PassportServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->app->register(LaravelPassportServiceProvider::class);
         Passport::ignoreMigrations();
         $this->configureDoctrine();
     }
 
-    private function configureDoctrine()
+    private function configureDoctrine(): void
     {
         $mappings = [
             'EOffice\\Packages\\Passport\\Model' => [
@@ -44,7 +47,7 @@ class PassportServiceProvider extends ServiceProvider
         config([
             $configKey => array_merge(
                 $mappings,
-                config($configKey, [])
+                (array) config($configKey, [])
             ),
         ]);
 

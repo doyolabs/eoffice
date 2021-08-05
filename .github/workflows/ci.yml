@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.composer/cache
-          key: composer-cache-php7.4
+          key: composer-cache-php8
 
       - name: Composer install
         run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader

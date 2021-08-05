@@ -53,7 +53,7 @@ trait Authenticatable
     }
 
     /**
-     * @param string|null $token
+     * @param string $token
      */
     public function setRememberToken($token): void
     {

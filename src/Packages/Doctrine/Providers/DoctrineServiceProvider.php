@@ -52,7 +52,7 @@ class DoctrineServiceProvider extends ServiceProvider
     /**
      * @psalm-suppress MixedArgument
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfig();
     }
@@ -69,7 +69,7 @@ class DoctrineServiceProvider extends ServiceProvider
         }
     }
 
-    private function mergeConfig()
+    private function mergeConfig(): void
     {
         $this->mergeConfigFrom(
             realpath(__DIR__.'/../Resources/config/doctrine.php'),

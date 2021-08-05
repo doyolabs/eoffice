@@ -21,10 +21,8 @@ class Doctrine
         string $abstract,
         string $concrete,
         array $options = []
-    ) {
-        /** @var \EOffice\Packages\Doctrine\Service\TargetEntityResolver $resolver */
+    ): void {
         $resolver = app(TargetEntityResolver::class);
-
         $resolver->addResolveTargetEntity($abstract, $concrete, $options);
     }
 }

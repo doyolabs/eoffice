@@ -61,7 +61,13 @@
             "@php artisan key:generate --ansi"
         ],
         "cs-fix": "@php ./vendor/bin/php-cs-fixer fix",
-        "coverage": "./vendor/bin/phpunit --coverage-text --coverage-html build/logs/html"
+        "coverage": "./vendor/bin/phpunit --coverage-text --coverage-html build/logs/html",
+        "psalm": "@php ./vendor/bin/psalm --threads=5",
+        "prepare-commit": [
+            "@phpstan",
+            "@psalm",
+            "@coverage"
+        ]
     },
     "extra": {
         "laravel": {
